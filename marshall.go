@@ -3,6 +3,7 @@ package main
 import (
 	"encoding/json"
 	"fmt"
+	"os"
 )
 
 type person struct {
@@ -15,6 +16,12 @@ type colorGroups struct {
 	Id     int
 	Name   string
 	Colors []string
+}
+type user struct {
+	First   string
+	Last    string
+	Age     int
+	Sayings []string
 }
 
 func main() {
@@ -47,5 +54,25 @@ func main() {
 		fmt.Println(err)
 	}
 	fmt.Println(string(bs))
+
+	u := user{
+		First: "Miss",
+		Last:  "Moneypenny",
+		Age:   27,
+		Sayings: []string{
+			"James, it is soo good to see you",
+			"Would you like me to take care of that for you, James?",
+			"I would really prefer to be a secret agent myself.",
+		},
+	}
+
+	users := []user{u}
+
+	fmt.Println(users)
+
+	err = json.NewEncoder(os.Stdout).Encode(users)
+	if err != nil {
+		fmt.Println("We did something wrong and here's the error:", err)
+	}
 
 }
